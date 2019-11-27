@@ -3,10 +3,20 @@ div {
 }
 
 header {
-    height: 80px;
+    height: 40px;
     display: flex;
     justify-content: center;
 
+}
+
+h2 {
+    color: white;
+    font-size: 20px;
+}
+
+p {
+    color: white;
+    font-size: 14px;
 }
 
 .forecastbox {
@@ -15,7 +25,7 @@ header {
     flex-wrap: wrap;
 }
 
-.forcast {
+.forecast {
     height: 200px;
     width: 120px;
     background-color: blue;

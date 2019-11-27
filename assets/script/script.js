@@ -77,29 +77,58 @@ function weatherSearch() {
     // searchHistoryButton()
 
 
-
+    let lat = ""
+    let lon = ""
 
     const queryURL = "https://api.openweathermap.org/data/2.5/forecast?q=" + cityName + "&units=imperial&appid=dd1c6f0d66cbae457daf01f8f6dbe7ff";
 
+
     axios.get(queryURL)
         .then(function (response) {
+            //first, query for today's weather (minus UV index)
             cityEl.innerText = response.data.city.name
-            dateEl.innerText = response.data.list[0].dt_txt.slice(5, 10)+"-2019"
-            tempEl.innerText = response.data.list[0].main.temp+" ℉"
-            humidityEl.innerText = response.data.list[0].main.humidity+"%"
-            windspeedEl.innerText = response.data.list[0].wind.speed+" MPH"
+            dateEl.innerText = response.data.list[0].dt_txt.slice(5, 10) + "-2019"
+            tempEl.innerText = "Temperature: " + response.data.list[0].main.temp + " ℉"
+            humidityEl.innerText = "Humidity: " + response.data.list[0].main.humidity + "%"
+            windspeedEl.innerText = "Windspeed: " + response.data.list[0].wind.speed + " MPH"
             const iconName = response.data.list[0].weather[0].icon
-            console.log(iconName)
             iconEl.setAttribute("src", "./assets/images/" + iconName + ".png")
+            lat = response.data.city.coord.lat
+            lon = response.data.city.coord.lon
+
+            //then, propogate results for forcasted weather
+            const forecastBoxEls = document.querySelectorAll(".forecast")
+            forecastBoxEls.innerHTML = "";
+            // console.log(forecastBoxEls)
+
+            for (let i = 0; i < 5; i++) {
+                const forecastBoxElsI = forecastBoxEls[i]
+                console.log(forecastBoxElsI)
+                $(forecastBoxElsI).append(`
+                <h2>`+ response.data.list[i * 8 + 7].dt_txt.slice(5, 10) + `-2019</h2>
+                <img src="./assets/images/`+ response.data.list[i * 8 + 7].weather[0].icon +`.png" width="60px" height="60px"> 
+                <p>Temperature: `+ response.data.list[i * 8 + 7].main.temp +` ℉</p>
+                <p>Humidity: `+ response.data.list[i * 8 + 7].main.humidity +`%</p>
+                `
+                )
+            }
 
 
-            console.log(cityEl)
-            console.log(response.data.city.name);
+            //then, take lat and lon from above to find today's UV index
+            const uvQueryURL = "http://api.openweathermap.org/data/2.5/uvi?appid=dd1c6f0d66cbae457daf01f8f6dbe7ff&lat=" + lat + "&lon=" + lon + "";
+
+            axios.get(uvQueryURL)
+                .then(function (response) {
+                    uvIndexEl.innerText = "UV Index: " + response.data.value
+                })
+
+
             console.log(response);
-
         }).catch(function (error) {
             console.log(error)
         })
+
+
 
 }
 
