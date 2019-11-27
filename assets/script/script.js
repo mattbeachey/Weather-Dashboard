@@ -1,5 +1,6 @@
 
 const searchBtnEl = document.getElementById("searchButton")
+const pastSearches = []
 searchBtnEl.addEventListener("click", function(){
     weatherSearch()
 })
@@ -9,8 +10,15 @@ function weatherSearch (){
 const cityName = document.getElementById("cityInput").value
 console.log(cityName)
 
+let currentData = localStorage.getItem("history") 
+let searchHistoryArray = JSON.parse(currentData)
+if (currentData == null) { //if there is no local data saved, the array is made to be a blank array
+    searchHistoryArray = []
+}
+searchHistoryArray.push(cityName)
+localStorage.setItem("history", JSON.stringify(searchHistoryArray))
 
-const queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&units=imperial&appid=dd1c6f0d66cbae457daf01f8f6dbe7ff";
+const queryURL = "https://api.openweathermap.org/data/2.5/forecast?q=" + cityName + "&units=imperial&appid=dd1c6f0d66cbae457daf01f8f6dbe7ff";
 
 axios.get(queryURL)
     .then(function (response) {
@@ -21,8 +29,12 @@ axios.get(queryURL)
         const windspeedEl = document.getElementById("wind")
         const humidity = document.getElementsByClassName("humity")
         const uvIndexEl = document.getElementsByClassName("uvIndex")
+        console.log(response.data.city.name);
         console.log(response);
-    });
+        
+    }).catch(function (error){
+        console.log(error)
+    })
 
 }
 
