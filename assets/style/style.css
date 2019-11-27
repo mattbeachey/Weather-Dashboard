@@ -22,3 +22,11 @@ header {
     border-radius: 4px;
     margin: 8px;
 }
+
+.previous-search {
+    margin: 10px;
+}
+
+ul {
+    list-style-type: none;
+  }

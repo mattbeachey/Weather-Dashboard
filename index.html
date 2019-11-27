@@ -19,18 +19,19 @@
                 <h1>Search for a City</h1>
                 <input id="cityInput">
                 <button id="searchButton">Search</button>
+                <ul id="previous-search" class="previous-search"></ul>
 
             </div>
             <div class="col-sm-12 col-md-8">
                 <div class="row">
                     <div class="col-12">
-                        <h1 class="city">City</h1>
-                        <h2 class="date">Date</h2>
-                        <img class="icon">
-                        <h3 class="temp">Temp</h3>
-                        <h3 class="wind"Windspeed></h3>
-                        <h3 class="humidity">Humidity</h3>
-                        <h3 class="uvIndex">uvIndex</h3>
+                        <h1 id="city">City</h1>
+                        <h2 id="date">Date</h2>
+                        <img id="icon">
+                        <h3 id="temp">Temp</h3>
+                        <h3 id="wind">Windspeed</h3>
+                        <h3 id="humidity">Humidity</h3>
+                        <h3 id="uvIndex">uvIndex</h3>
 
                     </div>
                 </div>
@@ -50,7 +51,7 @@
     </div>
 
 
-
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="./assets/script/script.js"></script>
 </body>
