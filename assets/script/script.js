@@ -98,17 +98,20 @@ function weatherSearch() {
 
             //then, propogate results for forcasted weather
             const forecastBoxEls = document.querySelectorAll(".forecast")
-            forecastBoxEls.innerHTML = "";
-            // console.log(forecastBoxEls)
-
+            const forecastMainBoxEl = document.getElementById("forecastmainbox")
+            forecastMainBoxEl.innerHTML = "";
             for (let i = 0; i < 5; i++) {
                 const forecastBoxElsI = forecastBoxEls[i]
-                console.log(forecastBoxElsI)
-                $(forecastBoxElsI).append(`
-                <h2>`+ response.data.list[i * 8 + 7].dt_txt.slice(5, 10) + `-2019</h2>
-                <img src="./assets/images/`+ response.data.list[i * 8 + 7].weather[0].icon +`.png" width="60px" height="60px"> 
-                <p>Temperature: `+ response.data.list[i * 8 + 7].main.temp +` ℉</p>
-                <p>Humidity: `+ response.data.list[i * 8 + 7].main.humidity +`%</p>
+                
+                const tempInfo = document.getElementById("temp"+i)
+                console.log(tempInfo)
+                $(forecastMainBoxEl).append(`
+                <div id="forecast1" class="forecast">
+                <h2 id="temp`+ i +`">`+ response.data.list[i * 8 + 7].dt_txt.slice(5, 10) + `-2019</h2>
+                <img id="temp`+ i +`" src="./assets/images/`+ response.data.list[i * 8 + 7].weather[0].icon +`.png" width="60px" height="60px"> 
+                <p id="temp`+ i +`">Temperature: `+ response.data.list[i * 8 + 7].main.temp +` ℉</p>
+                <p id="temp`+ i +`">Humidity: `+ response.data.list[i * 8 + 7].main.humidity +`%</p>
+                </div>
                 `
                 )
             }
