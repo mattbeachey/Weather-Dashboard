@@ -13,6 +13,7 @@ const humidityEl = document.getElementById("humidity")
 const uvIndexEl = document.getElementById("uvIndex")
 
 searchBtnEl.addEventListener("click", function () {
+    cityName = document.getElementById("cityInput").value
     searchHistoryButton()
     citySearch()
     queryAPI()
@@ -42,7 +43,7 @@ function searchHistoryButton() {
 
 
 function citySearch() {
-    cityName = document.getElementById("cityInput").value
+
 
 
     //pushing and saving searches to/from local memory for previous search list
@@ -145,6 +146,10 @@ function queryAPI() {
         })
 
 }
+
+searchHistoryButton()
+citySearch()
+queryAPI()
 
 
 
