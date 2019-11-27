@@ -13,11 +13,35 @@ const humidityEl = document.getElementById("humidity")
 const uvIndexEl = document.getElementById("uvIndex")
 
 searchBtnEl.addEventListener("click", function () {
-    weatherSearch()
+    searchHistoryButton()
+    citySearch()
+    queryAPI()
 })
 
 
-function weatherSearch() {
+
+
+
+function searchHistoryButton() {
+    const prevSearchBox = document.getElementById("previous-search")
+    const previousSearches = prevSearchBox.querySelectorAll("#prevSearchBtn")
+    // console.log(previousSearches)
+    for (let i = 0; i < 10; i++) {
+        const prevSearchEls = document.getElementById("prevSearchBtn"+ i +"")
+        console.log(prevSearchEls)
+        // prevSearchEls.addEventListener("click", function () {
+        //     cityName = prevSearchEls.innerText;
+        //     citySearch()
+        //     queryAPI()
+        // }
+        // )
+    }
+}
+
+
+
+
+function citySearch() {
     cityName = document.getElementById("cityInput").value
 
 
@@ -52,7 +76,7 @@ function weatherSearch() {
         document.getElementById("previous-search").innerHTML = "";
         for (let i = 0; i < searchHistoryArray.length; i++) {
             $('#previous-search').append(`
-        <li>
+        <li id="prevSearchBtn`+ i +`">
         `+ searchHistoryArray[i] + `
         </li>
         `
@@ -61,27 +85,18 @@ function weatherSearch() {
         }
     }
     searchHistory();
+}
 
-    // function searchHistoryButton() {
-    //     const previousSearches = document.querySelectorAll('#previous-search');
-    //     console.log(previousSearches)
-    //     for (let i = 0; i < searchHistoryArray.length; i++) {
-    //         const prevSearchEls = previousSearches[i];
-    //         prevSearchEls.addEventListener("click", function(){
-    //             cityName = prevSearchEls.innerHTML
-    //         })
 
-    //     }
 
-    // }
-    // searchHistoryButton()
 
+function queryAPI() {
 
     let lat = ""
     let lon = ""
-
     const queryURL = "https://api.openweathermap.org/data/2.5/forecast?q=" + cityName + "&units=imperial&appid=dd1c6f0d66cbae457daf01f8f6dbe7ff";
 
+    //below data is pulled for Open Weather API requests
 
     axios.get(queryURL)
         .then(function (response) {
@@ -102,15 +117,13 @@ function weatherSearch() {
             forecastMainBoxEl.innerHTML = "";
             for (let i = 0; i < 5; i++) {
                 const forecastBoxElsI = forecastBoxEls[i]
-                
-                const tempInfo = document.getElementById("temp"+i)
-                console.log(tempInfo)
+
                 $(forecastMainBoxEl).append(`
                 <div id="forecast1" class="forecast">
-                <h2 id="temp`+ i +`">`+ response.data.list[i * 8 + 7].dt_txt.slice(5, 10) + `-2019</h2>
-                <img id="temp`+ i +`" src="./assets/images/`+ response.data.list[i * 8 + 7].weather[0].icon +`.png" width="60px" height="60px"> 
-                <p id="temp`+ i +`">Temperature: `+ response.data.list[i * 8 + 7].main.temp +` ℉</p>
-                <p id="temp`+ i +`">Humidity: `+ response.data.list[i * 8 + 7].main.humidity +`%</p>
+                <h2 id="temp`+ i + `">` + response.data.list[i * 8 + 7].dt_txt.slice(5, 10) + `-2019</h2>
+                <img id="temp`+ i + `" src="./assets/images/` + response.data.list[i * 8 + 7].weather[0].icon + `.png" width="60px" height="60px"> 
+                <p id="temp`+ i + `">Temperature: ` + response.data.list[i * 8 + 7].main.temp + ` ℉</p>
+                <p id="temp`+ i + `">Humidity: ` + response.data.list[i * 8 + 7].main.humidity + `%</p>
                 </div>
                 `
                 )
@@ -126,12 +139,10 @@ function weatherSearch() {
                 })
 
 
-            console.log(response);
+            // console.log(response);
         }).catch(function (error) {
             console.log(error)
         })
-
-
 
 }
 
@@ -140,6 +151,3 @@ function weatherSearch() {
 
 
 
-// open weather API key: dd1c6f0d66cbae457daf01f8f6dbe7ff
-// other "default" key: 12a00623f47777267b83242eca269eda
-//test full url: "https://api.openweathermap.org/data/2.5/weather?q=Bujumbura,Burundi&units=imperial&appid=dd1c6f0d66cbae457daf01f8f6dbe7ff"
