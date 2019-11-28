@@ -32,50 +32,6 @@ function searchHistoryButton(i) {
 }
 
 
-function citySearch() {
-    //pushing and saving searches to/from local memory for previous search list
-    searchHistoryArray = JSON.parse(localStorage.getItem("history"))
-    if (searchHistoryArray == null) { //if there is no local data saved, the array is made to be a blank array
-        searchHistoryArray = []
-    }
-
-    //checking for duplicates in previous search list
-    //if latest search isn't in the list, add to array and push whole list to html
-    if (searchHistoryArray !== null) {
-        const duplicateSearch = searchHistoryArray.indexOf(cityName)
-        if (duplicateSearch == -1) {
-            searchHistoryArray.push(cityName)
-            localStorage.setItem("history", JSON.stringify(searchHistoryArray))
-        }
-        //if the latest search is a duplicate, do not add, simply pull existing array and do not add the dup search again
-        if (duplicateSearch !== -1) {
-        }
-    }
-    //if there are no previously saved search results, no need to search for duplicates
-    if (searchHistoryArray == null) {
-        searchHistoryArray.push(cityName)
-        localStorage.setItem("history", JSON.stringify(searchHistoryArray))
-    }
-    //the search array is reversed to keep the most recent search on top
-    searchHistoryArray.reverse();
-
-    //updates search history 
-    function searchHistory(i) {
-        document.getElementById("previous-search").innerHTML = "";
-        for (let i = 0; i < searchHistoryArray.length; i++) {
-            $('#previous-search').append(`
-        <li onclick="searchHistoryButton(`+ i + `)" id="prevSearchBtn`+ i +`">
-        `+ searchHistoryArray[i] + `
-        </li>
-        `
-            )
-
-        }
-    }
-    searchHistory();
-}
-
-
 function queryAPI() {
 
     let lat = ""
@@ -131,6 +87,54 @@ function queryAPI() {
         })
 
 }
+
+
+function citySearch() {
+    //pushing and saving searches to/from local memory for previous search list
+    searchHistoryArray = JSON.parse(localStorage.getItem("history"))
+    if (searchHistoryArray == null) { //if there is no local data saved, the array is made to be a blank array
+        searchHistoryArray = []
+    }
+
+    //checking for duplicates in previous search list
+    //if latest search isn't in the list, add to array and push whole list to html
+    if (searchHistoryArray !== null) {
+        const duplicateSearch = searchHistoryArray.indexOf(cityName)
+        console.log(cityEl.innerText)
+        if (duplicateSearch == -1 && cityEl.innerText !== null) {
+            searchHistoryArray.push(cityName)
+            localStorage.setItem("history", JSON.stringify(searchHistoryArray))
+        }
+        //if the latest search is a duplicate, do not add, simply pull existing array and do not add the dup search again
+        if (duplicateSearch !== -1) {
+        }
+    }
+    //if there are no previously saved search results, no need to search for duplicates
+    if (searchHistoryArray == null) {
+        searchHistoryArray.push(cityName)
+        localStorage.setItem("history", JSON.stringify(searchHistoryArray))
+    }
+    //the search array is reversed to keep the most recent search on top
+    searchHistoryArray.reverse();
+
+    //updates search history 
+    function searchHistory(i) {
+        document.getElementById("previous-search").innerHTML = "";
+        for (let i = 0; i < searchHistoryArray.length; i++) {
+            $('#previous-search').append(`
+        <li onclick="searchHistoryButton(`+ i + `)" id="prevSearchBtn`+ i +`">
+        `+ searchHistoryArray[i] + `
+        </li>
+        `
+            )
+
+        }
+    }
+    searchHistory();
+}
+
+
+
 //both citySearch and queryAPI are run at page load with the default cityName value hardcoded above
 citySearch()
 queryAPI()
