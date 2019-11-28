@@ -3,7 +3,6 @@ const searchBtnEl = document.getElementById("searchButton")
 let searchHistoryArray;
 const searchHistoryEl = document.getElementById("previous-search")
 let cityName = "St. Paul"
-
 const cityEl = document.getElementById("city")
 const dateEl = document.getElementById("date")
 const iconEl = document.getElementById("icon")
@@ -11,41 +10,29 @@ const tempEl = document.getElementById("temp")
 const windspeedEl = document.getElementById("wind")
 const humidityEl = document.getElementById("humidity")
 const uvIndexEl = document.getElementById("uvIndex")
+const prevSearchBox = document.getElementById("previous-search")
+const previousSearches = prevSearchBox.getElementsByTagName("li")
 
+
+//the main click handler - checks user's inputted city name and starts the citySearch and querySearch functions
 searchBtnEl.addEventListener("click", function () {
     cityName = document.getElementById("cityInput").value
-    searchHistoryButton()
     citySearch()
     queryAPI()
 })
 
 
-
-
-
-function searchHistoryButton() {
-    const prevSearchBox = document.getElementById("previous-search")
-    const previousSearches = prevSearchBox.querySelectorAll("#prevSearchBtn")
-    // console.log(previousSearches)
-    for (let i = 0; i < 10; i++) {
-        const prevSearchEls = document.getElementById("prevSearchBtn"+ i +"")
-        console.log(prevSearchEls)
-        // prevSearchEls.addEventListener("click", function () {
-        //     cityName = prevSearchEls.innerText;
-        //     citySearch()
-        //     queryAPI()
-        // }
-        // )
-    }
+//The secondary click handler - turns list of past searches into search buttons
+//The onclick in the <li> item generated below passes i in the argument, and then below in the function i specifies which node to pull innerText from
+function searchHistoryButton(i) { 
+    // alert(previousSearches[i].innerText);
+    cityName = previousSearches[i].innerText
+    citySearch()
+    queryAPI()
 }
 
 
-
-
 function citySearch() {
-
-
-
     //pushing and saving searches to/from local memory for previous search list
     searchHistoryArray = JSON.parse(localStorage.getItem("history"))
     if (searchHistoryArray == null) { //if there is no local data saved, the array is made to be a blank array
@@ -73,11 +60,11 @@ function citySearch() {
     searchHistoryArray.reverse();
 
     //updates search history 
-    function searchHistory() {
+    function searchHistory(i) {
         document.getElementById("previous-search").innerHTML = "";
         for (let i = 0; i < searchHistoryArray.length; i++) {
             $('#previous-search').append(`
-        <li id="prevSearchBtn`+ i +`">
+        <li onclick="searchHistoryButton(`+ i + `)" id="prevSearchBtn`+ i +`">
         `+ searchHistoryArray[i] + `
         </li>
         `
@@ -87,8 +74,6 @@ function citySearch() {
     }
     searchHistory();
 }
-
-
 
 
 function queryAPI() {
@@ -146,8 +131,7 @@ function queryAPI() {
         })
 
 }
-
-searchHistoryButton()
+//both citySearch and queryAPI are run at page load with the default cityName value hardcoded above
 citySearch()
 queryAPI()
 
