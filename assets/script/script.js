@@ -62,7 +62,7 @@ function queryAPI() {
 
                 $(forecastMainBoxEl).append(`
                 <div id="forecast1" class="forecast">
-                <h2 id="temp`+ i + `">` + response.data.list[i * 8 + 7].dt_txt.slice(5, 10) + `-2019</h2>
+                <h4 id="temp`+ i + `">` + response.data.list[i * 8 + 7].dt_txt.slice(5, 10) + `-2019</h4>
                 <img id="temp`+ i + `" src="./assets/images/` + response.data.list[i * 8 + 7].weather[0].icon + `.png" width="60px" height="60px"> 
                 <p id="temp`+ i + `">Temperature: ` + response.data.list[i * 8 + 7].main.temp + ` ℉</p>
                 <p id="temp`+ i + `">Humidity: ` + response.data.list[i * 8 + 7].main.humidity + `%</p>
@@ -80,8 +80,6 @@ function queryAPI() {
                     uvIndexEl.innerText = "UV Index: " + response.data.value
                 })
 
-
-            // console.log(response);
         }).catch(function (error) {
             console.log(error)
         })
