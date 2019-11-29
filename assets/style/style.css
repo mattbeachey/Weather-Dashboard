@@ -1,11 +1,24 @@
-div {
+/* div {
     border: 2px solid black;
+} */
+
+body {
+    background-color: #3e8ca2;
 }
 
 header {
-    height: 40px;
+    height: 80px;
+    font-size: 50px;
     display: flex;
     justify-content: center;
+    font-family: Calistoga;
+    color: #ecf1eb;
+
+}
+
+h1 {
+    font-family: Calistoga;
+    color: #3e8ca2;
 
 }
 
@@ -33,13 +46,7 @@ p {
     flex-wrap: wrap;
 }
 
-.forecast {
-    height: 200px;
-    width: 120px;
-    background-color: blue;
-    border-radius: 4px;
-    margin: 8px;
-}
+
 
 .previous-search {
     margin: 10px;
@@ -50,5 +57,37 @@ ul {
   }
 
 .today-weather {
-    background-color: gray;
+    /* border: 2px solid #3e8ca2;
+    background-color: #ecf1eb; */
+
 }
+
+.searchbox {
+    border-right: 3px solid #3e8ca2;
+    border-radius: 16px;
+    background-color: #ecf1eb;
+}
+
+.forecasttitle {
+    margin: 4px;
+
+}
+
+.forecastmainbox {
+
+}
+
+.forecast {
+    height: 200px;
+    width: 120px;
+    background-color: #3e8ca2;
+    border-radius: 4px;
+    margin: 8px;
+    padding: 8px;
+}
+
+.container {
+    background-color: #ecf1eb;
+    border-radius: 16px;
+}
+
