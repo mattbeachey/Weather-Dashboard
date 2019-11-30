@@ -120,7 +120,7 @@ function citySearch() {
         document.getElementById("previous-search").innerHTML = "";
         for (let i = 0; i < searchHistoryArray.length; i++) {
             $('#previous-search').append(`
-        <li onclick="searchHistoryButton(`+ i + `)" id="prevSearchBtn`+ i +`">
+        <li onclick="searchHistoryButton(`+ i + `)" id="prevSearchBtn`+ i +`" class="previous-search-item">
         `+ searchHistoryArray[i] + `
         </li>
         `

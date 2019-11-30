@@ -51,6 +51,12 @@ p {
 
 .previous-search {
     margin: 10px;
+    font-size: 20px;
+}
+
+.previous-search-item {
+    /* background-color: hotpink; */
+    /* width: 150px; */
 }
 
 li {
@@ -64,8 +70,9 @@ li {
   }
 
 li:hover {
-    border-radius: 4px;
-    transform: perspective(100px) rotatey(8deg);
+    border-radius: 8px;
+    border: 1px solid #3e8ca2;
+    transform: perspective(100px) rotatey(4deg);
     transition: all 0.4s;
 }
 
@@ -92,9 +99,22 @@ p {
     background-color: #ecf1eb;
     color: #3e8ca2;
     padding: 10px;
-        /* @media screen {
-            
-        } */
+}
+
+@media screen and (max-width: 768px) {
+    .searchbox {
+    border-right: none;
+    border-bottom: 3px solid #3e8ca2;
+    }
+    .previous-search  {
+        max-height: 10em;
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+        }
+        li {
+            width: 35%;
+          }
 }
 
 /* .searchbox:hover {
@@ -111,6 +131,7 @@ button {
     border: #3e8ca2;
     background-color: #ecf1eb;    
     border-radius: 8px;
+    text-decoration: underline;
 }
 
 button:hover {
@@ -130,6 +151,7 @@ input {
 
 .forecasttitle {
     margin: 4px;
+    border-bottom: 2px solid #3e8ca2;
 
 }
 
