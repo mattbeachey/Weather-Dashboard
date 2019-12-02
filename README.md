@@ -5,4 +5,4 @@ When a user searches for a new city, that city is added to a list of previously 
 Live Link: https://mattbeachey.github.io/Weather-Dashboard/
 
 ![screenshot](https://github.com/mattbeachey/Weather-Dashboard/blob/master/assets/images/Screenshot1.PNG)
-![screenshot](https://github.com/mattbeachey/Weather-Dashboard/blob/master/assets/images/screenshot2.jpg | width=300)
+![screenshot](https://github.com/mattbeachey/Weather-Dashboard/blob/master/assets/images/screenshot2.jpg)
