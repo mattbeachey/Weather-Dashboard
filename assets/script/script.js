@@ -12,12 +12,12 @@ const humidityEl = document.getElementById("humidity")
 const uvIndexEl = document.getElementById("uvIndex")
 const prevSearchBox = document.getElementById("previous-search")
 const previousSearches = prevSearchBox.getElementsByTagName("li")
+let realCityName = ""
 
 
 //the main click handler - checks user's inputted city name and starts the citySearch and querySearch functions
 searchBtnEl.addEventListener("click", function () {
     cityName = document.getElementById("cityInput").value
-    citySearch()
     queryAPI()
 })
 
@@ -27,7 +27,6 @@ searchBtnEl.addEventListener("click", function () {
 function searchHistoryButton(i) { 
     // alert(previousSearches[i].innerText);
     cityName = previousSearches[i].innerText
-    citySearch()
     queryAPI()
 }
 
@@ -44,6 +43,7 @@ function queryAPI() {
         .then(function (response) {
             //first, query for today's weather (minus UV index)
             cityEl.innerText = response.data.city.name
+            realCityName = response.data.city.name
             dateEl.innerText = response.data.list[0].dt_txt.slice(5, 10) + "-2019"
             tempEl.innerText = "Temperature: " + response.data.list[0].main.temp + " ℉"
             humidityEl.innerText = "Humidity: " + response.data.list[0].main.humidity + "%"
@@ -80,6 +80,53 @@ function queryAPI() {
                     uvIndexEl.innerText = "UV Index: " + response.data.value
                 })
 
+                //citySearch was moved inside of queryAPI function so it could take the let "realCityName" from that function and
+                //add that value to the previous search array, preventing erroneous city searches from entering the array. 
+                function citySearch() {
+                    //pushing and saving searches to/from local memory for previous search list
+                    searchHistoryArray = JSON.parse(localStorage.getItem("history"))
+                    if (searchHistoryArray == null) { //if there is no local data saved, the array is made to be a blank array
+                        searchHistoryArray = []
+                    }
+                
+                    //checking for duplicates in previous search list
+                    //if latest search isn't in the list, add to array and push whole list to html
+                    if (searchHistoryArray !== null) {
+                        const duplicateSearch = searchHistoryArray.indexOf(cityName)
+                        console.log(cityEl.innerText)
+                        if (duplicateSearch == -1 && cityEl.innerText !== null) {
+                            searchHistoryArray.push(realCityName)
+                            localStorage.setItem("history", JSON.stringify(searchHistoryArray))
+                        }
+                        //if the latest search is a duplicate, do not add, simply pull existing array and do not add the dup search again
+                        if (duplicateSearch !== -1) {
+                        }
+                    }
+                    //if there are no previously saved search results, no need to search for duplicates
+                    if (searchHistoryArray == null) {
+                        searchHistoryArray.push(realCityName)
+                        localStorage.setItem("history", JSON.stringify(searchHistoryArray))
+                    }
+                    //the search array is reversed to keep the most recent search on top
+                    searchHistoryArray.reverse();
+                
+                    //updates search history 
+                    function searchHistory(i) {
+                        document.getElementById("previous-search").innerHTML = "";
+                        for (let i = 0; i < searchHistoryArray.length; i++) {
+                            $('#previous-search').append(`
+                        <li onclick="searchHistoryButton(`+ i + `)" id="prevSearchBtn`+ i +`" class="previous-search-item">
+                        `+ searchHistoryArray[i] + `
+                        </li>
+                        `
+                            )
+                
+                        }
+                    }
+                    searchHistory();
+                }
+                citySearch()
+
         }).catch(function (error) {
             console.log(error)
         })
@@ -87,54 +134,8 @@ function queryAPI() {
 }
 
 
-function citySearch() {
-    //pushing and saving searches to/from local memory for previous search list
-    searchHistoryArray = JSON.parse(localStorage.getItem("history"))
-    if (searchHistoryArray == null) { //if there is no local data saved, the array is made to be a blank array
-        searchHistoryArray = []
-    }
-
-    //checking for duplicates in previous search list
-    //if latest search isn't in the list, add to array and push whole list to html
-    if (searchHistoryArray !== null) {
-        const duplicateSearch = searchHistoryArray.indexOf(cityName)
-        console.log(cityEl.innerText)
-        if (duplicateSearch == -1 && cityEl.innerText !== null) {
-            searchHistoryArray.push(cityName)
-            localStorage.setItem("history", JSON.stringify(searchHistoryArray))
-        }
-        //if the latest search is a duplicate, do not add, simply pull existing array and do not add the dup search again
-        if (duplicateSearch !== -1) {
-        }
-    }
-    //if there are no previously saved search results, no need to search for duplicates
-    if (searchHistoryArray == null) {
-        searchHistoryArray.push(cityName)
-        localStorage.setItem("history", JSON.stringify(searchHistoryArray))
-    }
-    //the search array is reversed to keep the most recent search on top
-    searchHistoryArray.reverse();
-
-    //updates search history 
-    function searchHistory(i) {
-        document.getElementById("previous-search").innerHTML = "";
-        for (let i = 0; i < searchHistoryArray.length; i++) {
-            $('#previous-search').append(`
-        <li onclick="searchHistoryButton(`+ i + `)" id="prevSearchBtn`+ i +`" class="previous-search-item">
-        `+ searchHistoryArray[i] + `
-        </li>
-        `
-            )
-
-        }
-    }
-    searchHistory();
-}
-
-
 
 //both citySearch and queryAPI are run at page load with the default cityName value hardcoded above
-citySearch()
 queryAPI()
 
 
