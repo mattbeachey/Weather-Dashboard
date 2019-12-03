@@ -37,8 +37,14 @@ function queryAPI() {
     let lon = ""
     const queryURL = "https://api.openweathermap.org/data/2.5/forecast?q=" + cityName + "&units=imperial&appid=dd1c6f0d66cbae457daf01f8f6dbe7ff";
 
-    //below data is pulled for Open Weather API requests
+    
 
+    //start of function to pull most recently search city upon refresh
+    // if (searchHistoryArray !== null) {
+    //     cityName = 
+    // }
+
+    //below data is pulled for Open Weather API requests
     axios.get(queryURL)
         .then(function (response) {
             //first, query for today's weather (minus UV index)
@@ -73,7 +79,7 @@ function queryAPI() {
 
 
             //then, take lat and lon from above to find today's UV index
-            const uvQueryURL = "http://api.openweathermap.org/data/2.5/uvi?appid=dd1c6f0d66cbae457daf01f8f6dbe7ff&lat=" + lat + "&lon=" + lon + "";
+            const uvQueryURL = "https://api.openweathermap.org/data/2.5/uvi?appid=dd1c6f0d66cbae457daf01f8f6dbe7ff&lat=" + lat + "&lon=" + lon + "";
 
             axios.get(uvQueryURL)
                 .then(function (response) {
